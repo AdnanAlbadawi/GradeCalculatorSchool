@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Average Calculator For School Students</title>
+    
+    <link rel="icon" type="image/png" href="icon.png">
+
+    <style>
+        /* --- GENERAL STYLES --- */
+        body {
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            background: linear-gradient(to bottom right, #e0eafc, #cfdef3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .main-container {
+            background-color: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            box-shadow: 0 6px 32px rgba(80, 120, 180, 0.11);
+            padding: 30px;
+            width: 100%;
+            max-width: 420px;
+            animation: slideUpFade 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            opacity: 0;
+            transform: translateY(30px);
+            text-align: center;
+        }
+
+        /* App Logo */
+        .app-logo {
+            width: 80px;
+            height: auto;
+            margin-bottom: 10px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .title-label {
+            font-size: 24px;
+            font-weight: bold;
+            color: #30415d;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 40px 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+            text-align: left;
+        }
+
+        .header-label {
+            font-weight: bold;
+            font-size: 15px;
+            color: #30415d;
+        }
+
+        .row-label {
+            color: #30415d;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        input[type="text"] {
+            background-color: #f7faff;
+            border: 1px solid #bed2f7;
+            border-radius: 7px;
+            padding: 10px;
+            font-size: 14px;
+            outline: none;
+            width: 100%;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #005ecb;
+            box-shadow: 0 0 8px rgba(100,170,255,0.3);
+            transform: scale(1.02);
+        }
+
+        .error-shake {
+            animation: shake 0.4s ease-in-out;
+            border-color: #ff4d4d !important;
+            background-color: #fff0f0 !important;
+        }
+
+        .calc-btn {
+            background: linear-gradient(to right, #569af6, #47e4d7);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 30px;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(70,154,246,0.3);
+            transition: transform 0.1s ease, box-shadow 0.3s ease;
+        }
+
+        .calc-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(70,154,246,0.4);
+        }
+
+        .calc-btn:active {
+            transform: scale(0.97);
+        }
+
+        .result-label {
+            font-size: 20px;
+            font-weight: bold;
+            color: #205077;
+            margin-top: 25px;
+            display: block;
+            min-height: 27px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .note-label {
+            font-size: 12px;
+            color: #7a8b9e;
+            margin-top: 8px;
+            font-style: italic;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        
+        /* Footer / Signature Style */
+        .footer-label {
+            font-size: 12px;
+            color: #94aabf;
+            margin-top: 30px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .pop-anim {
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes slideUpFade { to { opacity: 1; transform: translateY(0); } }
+        @keyframes popIn { 0% { opacity: 0; transform: scale(0.5); } 100% { opacity: 1; transform: scale(1); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-10px); } 40% { transform: translateX(10px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(5px); } }
+
+        .grid-container > input:nth-of-type(1) { animation: slideUpFade 0.5s 0.1s backwards; }
+        .grid-container > input:nth-of-type(2) { animation: slideUpFade 0.5s 0.15s backwards; }
+        .grid-container > input:nth-of-type(3) { animation: slideUpFade 0.5s 0.2s backwards; }
+        .grid-container > input:nth-of-type(4) { animation: slideUpFade 0.5s 0.25s backwards; }
+        .grid-container > input:nth-of-type(5) { animation: slideUpFade 0.5s 0.3s backwards; }
+        .grid-container > input:nth-of-type(6) { animation: slideUpFade 0.5s 0.35s backwards; }
+        .grid-container > input:nth-of-type(7) { animation: slideUpFade 0.5s 0.4s backwards; }
+
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        
+        <img src="icon.png" alt="App Icon" class="app-logo">
+
+        <label class="title-label">Grade Average Calculator - MOE Students</label>
+
+        <div class="grid-container">
+            <div class="header-label">##</div>
+            <div class="header-label">Letter Grade</div>
+	
+            <div class="row-label">1</div>
+            <input type="text" class="grade-input" placeholder="e.g. A+, B-">
+
+            <div class="row-label">2</div>
+            <input type="text" class="grade-input" placeholder="e.g. A+, B-">
+
+            <div class="row-label">3</div>
+            <input type="text" class="grade-input" placeholder="e.g. A+, B-">
+
+            <div class="row-label">4</div>
+            <input type="text" class="grade-input" placeholder="e.g. A+, B-">
+
+            <div class="row-label">5</div>
+            <input type="text" class="grade-input" placeholder="e.g. A+, B-">
+
+            <div class="row-label">6</div>
+            <input type="text" class="grade-input" placeholder="e.g. A+, B-">
+
+            <div class="row-label">7</div>
+            <input type="text" class="grade-input" placeholder="e.g. A+, B-">
+        </div>
+
+        <button class="calc-btn" onclick="calculateAverage()">Calculate Average</button>
+
+        <div id="result" class="result-label">Result will appear here</div>
+        <div id="note" class="note-label"></div>
+
+        <div class="footer-label">made with 💖 by adnan</div>
+    </div>
+
+    <script>
+        function calculateAverage() {
+            const inputs = document.querySelectorAll('.grade-input');
+            const resultLabel = document.getElementById('result');
+            const noteLabel = document.getElementById('note');
+            
+            let totalPercentage = 0;
+            let courseCount = 0;
+            let errorFound = false;
+
+            // Reset animations
+            resultLabel.classList.remove('pop-anim');
+            resultLabel.style.opacity = '0';
+            noteLabel.style.opacity = '0';
+
+            inputs.forEach(input => {
+                input.classList.remove('error-shake');
+                
+                const gradeText = input.value.trim().toUpperCase();
+
+                if (gradeText !== "") {
+                    const percentage = getPercentageFromLetter(gradeText);
+                    
+                    if (percentage === -1) {
+                        // Shake animation
+                        void input.offsetWidth; 
+                        input.classList.add('error-shake');
+                        
+                        resultLabel.innerText = "Check the red fields!";
+                        resultLabel.style.color = "#ff4d4d";
+                        resultLabel.style.opacity = "1";
+                        errorFound = true;
+                        return; 
+                    }
+
+                    totalPercentage += percentage;
+                    courseCount++;
+                }
+            });
+
+            if (errorFound) return;
+
+            if (courseCount === 0) {
+                resultLabel.innerText = "Please enter at least one grade.";
+                resultLabel.style.color = "#30415d";
+                resultLabel.style.opacity = "1";
+                return;
+            }
+
+            // Calculate Average
+            const average = totalPercentage / courseCount;
+            
+            // Display Result
+            resultLabel.style.color = "#205077";
+            resultLabel.innerText = "Average Grade: " + average.toFixed(2) + "%";
+            
+            // Pop Animation
+            void resultLabel.offsetWidth; 
+            resultLabel.classList.add('pop-anim');
+
+            // Display Note
+            noteLabel.innerText = "Note: This is not 100% accurate, but it should be close to the real grade.";
+            noteLabel.style.opacity = "1";
+        }
+
+        function getPercentageFromLetter(letter) {
+            switch (letter) {
+                case "A+": return 98.5;
+                case "A":  return 95.0;
+                case "A-": return 91.5;
+                case "B+": return 88.5;
+                case "B":  return 85.0;
+                case "B-": return 81.5;
+                case "C+": return 78.5;
+                case "C":  return 75.0;
+                case "C-": return 71.5;
+                case "D+": return 68.5;
+                case "D":  return 65.0;
+                case "D-": return 61.5;
+                case "F":  return 0.0;
+                default:   return -1;
+            }
+        }
+    </script>
+</body>
+</html>
